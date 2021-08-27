@@ -8,7 +8,12 @@ const Profile = () => {
     authService.signOut();
     history.push("/");
   };
-  return <button onClick={onClick}>Log Out</button>;
+  return (
+    <>
+      <button onClick={onClick}>Log Out</button>
+      <button onClick={() => history.push("/")}>Home</button>
+    </>
+  );
 };
 
 export default Profile;

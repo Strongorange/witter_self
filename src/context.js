@@ -4,9 +4,12 @@ const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState("");
+  const [weets, setWeets] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
-    <UserContext.Provider value={{ user, setUser, isLoggedIn, setIsLoggedIn }}>
+    <UserContext.Provider
+      value={{ user, setUser, isLoggedIn, setIsLoggedIn, weets, setWeets }}
+    >
       {children}
     </UserContext.Provider>
   );
@@ -30,6 +33,16 @@ export const useIsLoggedIn = () => {
 export const useSetIsLoggedIn = () => {
   const { setIsLoggedIn } = useContext(UserContext);
   return setIsLoggedIn;
+};
+
+export const useWeets = () => {
+  const { weets } = useContext(UserContext);
+  return weets;
+};
+
+export const useSetWeets = () => {
+  const { setWeets } = useContext(UserContext);
+  return setWeets;
 };
 
 export default UserProvider;

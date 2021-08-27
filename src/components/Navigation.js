@@ -1,12 +1,13 @@
 import React from "react";
 import { useUser } from "../context";
+import Profile from "../screens/Profile";
 const Navigation = () => {
   const user = useUser();
 
   return (
-    <div>
+    <nav>
       <span>{`${user.displayName} 안뇽`}</span>
-    </div>
+    </nav>
   );
 };
 
