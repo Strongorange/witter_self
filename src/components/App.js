@@ -23,6 +23,7 @@ const App = () => {
           setUser({
             displayName: user.displayName,
             uid: user.uid,
+            updateProfile: (args) => user.updateProfile(args),
           });
           setIsLoggedIn(true);
         } else {

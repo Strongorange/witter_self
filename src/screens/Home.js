@@ -3,12 +3,14 @@ import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import { dbService } from "../fbase";
 import { useUser, useSetWeets } from "../context";
+import { useWeets } from "../context";
 import Weet from "./Weet";
 
 const Home = () => {
   const [weet, setWeet] = useState("");
   const user = useUser();
   const setWeets = useSetWeets();
+  const weets = useWeets();
 
   useEffect(() => {
     dbService.collection("weets").onSnapshot((snapshot) => {
@@ -52,7 +54,15 @@ const Home = () => {
           <input type="submit" value="트윗" />
         </form>
       </div>
-      <Weet />
+      <div>
+        {weets.map((weet) => (
+          <Weet
+            key={weet.id}
+            weetObj={weet}
+            isOwner={weet.owner === user.uid}
+          />
+        ))}
+      </div>
     </>
   );
 };
