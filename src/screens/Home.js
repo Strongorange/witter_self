@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
-import { dbService } from "../fbase";
+import { dbService, storageService } from "../fbase";
 import { useUser, useSetWeets } from "../context";
 import { useWeets } from "../context";
 import Weet from "./Weet";
 
 const Home = () => {
   const [weet, setWeet] = useState("");
+  const [attachment, setAttachment] = useState("");
   const user = useUser();
   const setWeets = useSetWeets();
   const weets = useWeets();
+  const fileInput = useRef();
 
   useEffect(() => {
     dbService.collection("weets").onSnapshot((snapshot) => {
@@ -28,14 +30,42 @@ const Home = () => {
     } = e;
     setWeet(value);
   };
+  const onFileChange = (e) => {
+    const {
+      target: { files },
+    } = e;
+    const theFile = files[0];
+    const reader = new FileReader();
+    reader.onloadend = (finishedEvent) => {
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setAttachment(result);
+    };
+    reader.readAsDataURL(theFile);
+  };
   const onSubmit = async (e) => {
     e.preventDefault();
+    let attachmentUrl = "";
+    if (attachment !== "") {
+      const attachmentRef = storageService
+        .ref()
+        .child(`${user.uid}/${uuidv4()}`);
+      const response = await attachmentRef.putString(attachment, "data_url");
+      attachmentUrl = await response.ref.getDownloadURL();
+    }
     await dbService.collection("weets").doc().set({
       text: weet,
       createdAt: Date.now(),
       owner: user.uid,
+      attachmentUrl,
     });
     setWeet("");
+    setAttachment("");
+  };
+  const onClearAttachment = () => {
+    setAttachment(null);
+    fileInput.current.value = null;
   };
 
   return (
@@ -51,7 +81,19 @@ const Home = () => {
             value={weet}
             onChange={onChange}
           />
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInput}
+            onChange={onFileChange}
+          />
           <input type="submit" value="트윗" />
+          {attachment && (
+            <div>
+              <img src={attachment} width="50px" height="50px" />
+              <button onClick={onClearAttachment}>Clear</button>
+            </div>
+          )}
         </form>
       </div>
       <div>

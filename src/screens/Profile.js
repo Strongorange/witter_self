@@ -44,8 +44,6 @@ const Profile = () => {
 
   return (
     <>
-      {console.log("current", authService.currentUser)}
-      {console.log("user", user)}
       <div>
         <button onClick={onClick}>Log Out</button>
         <button onClick={() => history.push("/")}>Home</button>
