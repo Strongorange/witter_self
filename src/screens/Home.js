@@ -5,6 +5,14 @@ import { dbService, storageService } from "../fbase";
 import { useUser, useSetWeets } from "../context";
 import { useWeets } from "../context";
 import Weet from "./Weet";
+import styled from "styled-components";
+
+const Form = styled.form`
+  display: flex;
+  margin-top: 10vh;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const Home = () => {
   const [weet, setWeet] = useState("");
@@ -70,32 +78,27 @@ const Home = () => {
 
   return (
     <>
-      <Link to="/profile">
-        <span>Profile</span>
-      </Link>
-      <div>
-        <form onSubmit={onSubmit}>
-          <input
-            type="text"
-            placeholder="트윗을 입력하세요"
-            value={weet}
-            onChange={onChange}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInput}
-            onChange={onFileChange}
-          />
-          <input type="submit" value="트윗" />
-          {attachment && (
-            <div>
-              <img src={attachment} width="50px" height="50px" />
-              <button onClick={onClearAttachment}>Clear</button>
-            </div>
-          )}
-        </form>
-      </div>
+      <Form onSubmit={onSubmit}>
+        <input
+          type="text"
+          placeholder="트윗을 입력하세요"
+          value={weet}
+          onChange={onChange}
+        />
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInput}
+          onChange={onFileChange}
+        />
+        <input type="submit" value="트윗" />
+        {attachment && (
+          <div>
+            <img src={attachment} width="50px" height="50px" />
+            <button onClick={onClearAttachment}>Clear</button>
+          </div>
+        )}
+      </Form>
       <div>
         {weets.map((weet) => (
           <Weet
