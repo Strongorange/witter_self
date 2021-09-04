@@ -6,12 +6,71 @@ import { useUser, useSetWeets } from "../context";
 import { useWeets } from "../context";
 import Weet from "./Weet";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+
+const Container = styled.div`
+  max-width: 400px;
+  width: 100%;
+  margin: 80px auto 0px;
+  display: flex;
+  justify-content: center;
+`;
 
 const Form = styled.form`
   display: flex;
-  margin-top: 10vh;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%;
+  .weetInput {
+    flex-grow: 1;
+    height: 40px;
+    padding: 0px 20px;
+    color: white;
+    border: 1px solid #04aaff;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 12px;
+  }
+  .input__arrow {
+    position: absolute;
+    right: 0;
+    background-color: #04aaff;
+    height: 40px;
+    width: 40px;
+    padding: 10px 0px;
+    text-align: center;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+  }
+`;
+
+const AttachContainer = styled.div`
+  img {
+    height: 80px;
+    width: 80px;
+    border-radius: 40px;
+  }
+  .attachClear {
+    color: #04aaff;
+    cursor: pointer;
+    text-align: center;
+    span {
+      margin-right: 10px;
+      font-size: 12px;
+    }
+  }
 `;
 
 const Home = () => {
@@ -36,6 +95,7 @@ const Home = () => {
     const {
       target: { value },
     } = e;
+
     setWeet(value);
   };
   const onFileChange = (e) => {
@@ -53,6 +113,10 @@ const Home = () => {
     reader.readAsDataURL(theFile);
   };
   const onSubmit = async (e) => {
+    if (weet === "") {
+      return;
+    }
+    console.log("active");
     e.preventDefault();
     let attachmentUrl = "";
     if (attachment !== "") {
@@ -62,10 +126,16 @@ const Home = () => {
       const response = await attachmentRef.putString(attachment, "data_url");
       attachmentUrl = await response.ref.getDownloadURL();
     }
-    await dbService.collection("weets").doc().set({
+    // await dbService.collection("weets").doc().set({
+    //   text: weet,
+    //   createdAt: Date.now(),
+    //   owner: user.uid,
+    //   attachmentUrl,
+    // });
+    await dbService.collection("weets").add({
       text: weet,
       createdAt: Date.now(),
-      owner: user.uid,
+      creatorId: user.uid,
       attachmentUrl,
     });
     setWeet("");
@@ -78,36 +148,56 @@ const Home = () => {
 
   return (
     <>
-      <Form onSubmit={onSubmit}>
-        <input
-          type="text"
-          placeholder="트윗을 입력하세요"
-          value={weet}
-          onChange={onChange}
-        />
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInput}
-          onChange={onFileChange}
-        />
-        <input type="submit" value="트윗" />
-        {attachment && (
-          <div>
-            <img src={attachment} width="50px" height="50px" />
-            <button onClick={onClearAttachment}>Clear</button>
-          </div>
-        )}
-      </Form>
-      <div>
-        {weets.map((weet) => (
-          <Weet
-            key={weet.id}
-            weetObj={weet}
-            isOwner={weet.owner === user.uid}
+      <Container>
+        <Form onSubmit={onSubmit}>
+          <InputContainer className="input__container">
+            <input
+              type="text"
+              placeholder="트윗을 입력하세요"
+              value={weet}
+              onChange={onChange}
+              className="weetInput"
+            />
+            <input type="submit" value="→" className="input__arrow" />
+          </InputContainer>
+          <label htmlFor="attach-file" className="input__label">
+            <span style={{ color: "#04aaff", cursor: "pointer" }}>
+              이미지 추가
+            </span>
+            <FontAwesomeIcon
+              icon={faPlus}
+              size="xs"
+              style={{ color: "#04aaff" }}
+            />
+          </label>
+          <input
+            id="attach-file"
+            type="file"
+            accept="image/*"
+            ref={fileInput}
+            onChange={onFileChange}
+            style={{ opacity: 0 }}
           />
-        ))}
-      </div>
+          {attachment && (
+            <AttachContainer>
+              <img src={attachment} style={{ backgroundImage: attachment }} />
+              <div className="attachClear" onClick={onClearAttachment}>
+                <span>삭제</span>
+                <FontAwesomeIcon icon={faTimes} />
+              </div>
+            </AttachContainer>
+          )}
+        </Form>
+        <div>
+          {weets.map((weet) => (
+            <Weet
+              key={weet.id}
+              weetObj={weet}
+              isOwner={weet.owner === user.uid}
+            />
+          ))}
+        </div>
+      </Container>
     </>
   );
 };

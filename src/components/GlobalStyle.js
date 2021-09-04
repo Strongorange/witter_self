@@ -16,6 +16,8 @@ const GlobalStyle = createGlobalStyle`
         font-size:20px;
     }
     input {
+        all:unset;
+        box-sizing:border-box;
         font-family: 'Do Hyeon', sans-serif;
         font-size:20px;
     }
