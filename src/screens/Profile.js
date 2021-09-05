@@ -12,6 +12,18 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  .logOut {
+    cursor: pointer;
+    width: 100%;
+    padding: 7px 20px;
+    text-align: center;
+    color: white;
+    border-radius: 20px;
+    background-color: tomato;
+    cursor: pointer;
+    width: 360px;
+    margin-top: 40px;
+  }
 `;
 
 const WeetContainer = styled.div`
@@ -36,7 +48,12 @@ const ProfileForm = styled.form`
     border-radius: 20px;
     background-color: white;
     color: black;
-    padding: 10px;
+    padding: 5px;
+  }
+  .updateBtn {
+    background-color: #04aaff;
+    color: white;
+    margin-top: 10px;
   }
 `;
 
@@ -90,9 +107,9 @@ const Profile = () => {
             onChange={onChange}
             className="changeInput"
           />
-          <input type="submit" value="이름 변경" />
-          <button onClick={onClick}>Log Out</button>
+          <input type="submit" value="이름 변경" className="updateBtn" />
         </ProfileForm>
+        <span className="logOut">로그아웃</span>
         <WeetContainer>
           <h3 style={{ marginBottom: "20px" }}>나의 트윗</h3>
           {myWeets
