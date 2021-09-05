@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.js": "/witter_self/static/js/main.13bd9103.chunk.js",
+    "main.js.map": "/witter_self/static/js/main.13bd9103.chunk.js.map",
+    "runtime-main.js": "/witter_self/static/js/runtime-main.b0134622.js",
+    "runtime-main.js.map": "/witter_self/static/js/runtime-main.b0134622.js.map",
+    "static/js/2.c2c6ead8.chunk.js": "/witter_self/static/js/2.c2c6ead8.chunk.js",
+    "static/js/2.c2c6ead8.chunk.js.map": "/witter_self/static/js/2.c2c6ead8.chunk.js.map",
+    "index.html": "/witter_self/index.html",
+    "static/js/2.c2c6ead8.chunk.js.LICENSE.txt": "/witter_self/static/js/2.c2c6ead8.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b0134622.js",
+    "static/js/2.c2c6ead8.chunk.js",
+    "static/js/main.13bd9103.chunk.js"
+  ]
+}
