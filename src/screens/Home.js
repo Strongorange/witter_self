@@ -14,7 +14,8 @@ const Container = styled.div`
   width: 100%;
   margin: 80px auto 0px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Form = styled.form`
@@ -71,6 +72,10 @@ const AttachContainer = styled.div`
       font-size: 12px;
     }
   }
+`;
+
+const WeetContainer = styled.div`
+  margin-top: 30px;
 `;
 
 const Home = () => {
@@ -188,15 +193,18 @@ const Home = () => {
             </AttachContainer>
           )}
         </Form>
-        <div>
-          {weets.map((weet) => (
-            <Weet
-              key={weet.id}
-              weetObj={weet}
-              isOwner={weet.owner === user.uid}
-            />
-          ))}
-        </div>
+
+        <WeetContainer className="weetsContainer">
+          {weets
+            .sort((a, b) => a.createdAt - b.createdAt)
+            .map((weet) => (
+              <Weet
+                key={weet.id}
+                weetObj={weet}
+                isOwner={weet.creatorId === user.uid}
+              />
+            ))}
+        </WeetContainer>
       </Container>
     </>
   );
