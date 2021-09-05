@@ -20,13 +20,12 @@ const WeetEach = styled.div`
     font-size: 14px;
   }
   img {
-    right: -10px;
-    top: 20px;
+    right: 60px;
+    top: 0px;
     position: absolute;
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    margin-top: 10px;
   }
 
   .weet__actions {
@@ -102,7 +101,7 @@ const Weet = ({ weetObj, isOwner }) => {
     });
     setEditing((prev) => !prev);
   };
-  console.log("wow", isOwner);
+
   return (
     <>
       <WeetEach>
