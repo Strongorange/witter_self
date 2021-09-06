@@ -71,6 +71,7 @@ const Profile = () => {
     setNewName(value);
   };
   const onSubmit = async (e) => {
+    console.log("actove");
     e.preventDefault();
     if (user.displayName !== newName) {
       user.updateProfile({
@@ -79,10 +80,12 @@ const Profile = () => {
       setUser({ ...user, displayName: authService.currentUser.displayName });
     }
   };
-  const onClick = () => {
+
+  const onLogoutClick = (e) => {
     authService.signOut();
     history.push("/");
   };
+
   const getMyWeets = async () => {
     const weets = await dbService
       .collection("weets")
@@ -109,7 +112,9 @@ const Profile = () => {
           />
           <input type="submit" value="이름 변경" className="updateBtn" />
         </ProfileForm>
-        <span className="logOut">로그아웃</span>
+        <span onClick={onLogoutClick} className="logOut">
+          로그아웃
+        </span>
         <WeetContainer>
           <h3 style={{ marginBottom: "20px" }}>나의 트윗</h3>
           {myWeets

@@ -62,6 +62,10 @@ const SocialContainer = styled.div`
 
 const SocialButton = styled.button`
   font-size: 18px;
+  border: none;
+  border-radius: 20px;
+  background-color: white;
+
   .socialIcon {
     margin-left: 7px;
   }
@@ -149,11 +153,19 @@ const Login = () => {
         {newAccount ? "로그인하러 가기" : "계정 만들기"}
       </Text>
       <SocialContainer>
-        <SocialButton name="google" onClick={onSocialClick}>
+        <SocialButton
+          className="socialBtn"
+          name="google"
+          onClick={onSocialClick}
+        >
           Continue with
           <FontAwesomeIcon icon={faGoogle} className="socialIcon" />
         </SocialButton>
-        <SocialButton name="github" onClick={onSocialClick}>
+        <SocialButton
+          className="socialBtn"
+          name="github"
+          onClick={onSocialClick}
+        >
           Continue with
           <FontAwesomeIcon icon={faGithub} className="socialIcon" />
         </SocialButton>
